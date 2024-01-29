@@ -1,0 +1,25 @@
+version: 2
+
+sources:  
+  - name: airbnb
+    schema: raw
+    tables:
+        - name: listings
+          identifier: raw_listings
+        - name: hosts
+          identifier: raw_hosts
+        - name: reviews
+          identifier: raw_reviews
+          loaded_at_field: date
+          freshness: 
+            warn_after:
+              count: 1
+              period: day
+            error_after:
+              count: 2
+              period: day
+
+                          
+          ## You can specify the code between line # 15-20 the following way
+          # warn_after:{count:1,period:hour}
+          # error_after:{count:24,period:hour}

@@ -1,0 +1,44 @@
+version: 2.0
+
+# There are 4 generic in-built test cases {1. Unique , 2.Not null , 3. Relationship(Checking if Key exists in other table), 4.Accepted Values}
+models:
+  - name: dim_listings
+    description: Listing dim table with airbnb listings. # Will be shown in documentation
+    columns:
+      - name: listing_id
+        description: Primary key for the listing # Will be shown in documentation
+        tests:
+          - unique
+          - not_null
+      - name: host_id
+        description: The host_id references to the host table
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_hosts')
+              field: host_id
+
+      - name: room_type
+        description: Type of apartment/ Room
+        tests:
+          - accepted_values:
+              values: ['Entire home/apt','Private room','Shared room','Hotel room'] 
+      - name: price
+        description: Room price per night
+
+      - name: listing_name
+        description: Name of the listing
+
+      - name: listing_url
+        description: listing url
+
+      - name: minimum_nights
+        description: '{{doc("dim_listings_minimum_nights")}}' # use doc name defined in docs.md file 
+
+      - name: listing_id # Check dulicates by listing id in dim_listings table 
+        tests:
+          - chk_duplicates # macro name
+      
+      ###############################################################################################################
+
+      
